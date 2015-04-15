@@ -1,7 +1,9 @@
 var through = require('through2');
 var path = require('path');
 
-module.exports = function (file) {
+module.exports = function (file, config) {
+
+	// console.log('CONFIG', config.basePath);
 
 	var lineNum = 1;
 
@@ -13,7 +15,9 @@ module.exports = function (file) {
 
 		chunk.split('\n').forEach(function (line) {
 
-			logExtra = '"[" + __filename.split("' + (path.sep === '/' ? '/' : '\\') + '").slice(3).join("/") + ":' + (lineNum++) + ']"';
+			logExtra = '"[" + __filename.replace(/\\\\/g, "/").replace("' + config.basePath + '", "") + ":' + (lineNum++) + ']"';
+
+			// console.log('Extra:', logExtra);
 
 			var newLine = line.replace(/console\.log\(/g, 'console.log(' + logExtra + ',');
 			result.push(newLine);
