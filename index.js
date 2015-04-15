@@ -1,4 +1,5 @@
 var through = require('through2');
+var path = require('path');
 
 module.exports = function (file) {
 
@@ -12,7 +13,7 @@ module.exports = function (file) {
 
 		chunk.split('\n').forEach(function (line) {
 
-			logExtra = '"[" + __filename.split("/").slice(3).join("/") + ":' + (lineNum++) + ']"';
+			logExtra = '"[" + __filename.split("' + path.sep + '").slice(3).join("/") + ":' + (lineNum++) + ']"';
 
 			var newLine = line.replace(/console\.log\(/g, 'console.log(' + logExtra + ',');
 			result.push(newLine);
