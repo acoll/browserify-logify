@@ -15,5 +15,8 @@
   "bugs": {
     "url": "https://github.com/acoll/browserify-logify/issues"
   },
-  "homepage": "https://github.com/acoll/browserify-logify"
+  "homepage": "https://github.com/acoll/browserify-logify",
+  "dependencies": {
+    "through2": "^0.6.5"
+  }
 }
