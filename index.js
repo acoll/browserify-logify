@@ -3,7 +3,12 @@ var path = require('path');
 
 module.exports = function (file, config) {
 
-	// console.log('CONFIG', config.basePath);
+	var prepend = null;
+
+	if(config.addTemplateLog)
+		if(file.indexOf('.jade', file.length - '.jade'.length) !== -1) {
+			prepend = '- console.log("TEMPLATE RENDERING");\n'
+		}
 
 	var lineNum = 1;
 
@@ -12,6 +17,11 @@ module.exports = function (file, config) {
 		var chunk = buf.toString('utf8');
 
 		var result = [];
+
+		if(prepend) {
+			chunk = prepend + chunk;
+			prepend = null;
+		}
 
 		chunk.split('\n').forEach(function (line) {
 
