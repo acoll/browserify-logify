@@ -7,10 +7,16 @@ module.exports = function (file, config) {
 
 	if(config.addTemplateLog)
 		if(file.indexOf('.jade', file.length - '.jade'.length) !== -1) {
-			prepend = '- console.log("TEMPLATE RENDERING");\n'
+			prepend = '- console.debug("TEMPLATE RENDERING");\n'
 		}
 
 	var lineNum = 1;
+
+	var filename = file;
+
+	if(config.basePath) {
+		filename = file.substring(file.indexOf(config.basePath) + config.basePath.length);
+	}
 
 	return through(function (buf, enc, next) {
 
@@ -25,12 +31,20 @@ module.exports = function (file, config) {
 
 		chunk.split('\n').forEach(function (line) {
 
-			logExtra = '"[" + __filename.replace(/\\\\/g, "/").replace("' + config.basePath + '", "") + ":' + (lineNum++) + ']"';
+			var regex = /console\.(log|warn|error|debug)\(/g;
 
-			// console.log('Extra:', logExtra);
+			var parsed = regex.exec(line);
 
-			var newLine = line.replace(/console\.log\(/g, 'console.log(' + logExtra + ',');
-			result.push(newLine);
+			if(parsed) {
+				var logExtra = '"[' + filename + ':' + (lineNum++) + ']"';
+				if(config.includeLevel) {
+					logExtra = '"[' + parsed[1].toUpperCase() + ' ' + filename + ':' + (lineNum++) + ']"';
+				}
+				
+				line = line.replace(regex, 'console.' + parsed[1] + '(' + logExtra + ',');
+			}
+
+			result.push(line);
 		}, this);
 
 		this.push(result.join('\n'));
