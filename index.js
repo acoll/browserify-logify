@@ -35,8 +35,8 @@ module.exports = function (file, config) {
 
 			var parsed = regex.exec(line);
 
+			var logExtra = '"[' + filename + ':' + (lineNum++) + ']"';
 			if(parsed) {
-				var logExtra = '"[' + filename + ':' + (lineNum++) + ']"';
 				if(config.includeLevel) {
 					logExtra = '"[' + parsed[1].toUpperCase() + ' ' + filename + ':' + (lineNum++) + ']"';
 				}
