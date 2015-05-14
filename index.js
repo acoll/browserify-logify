@@ -35,10 +35,10 @@ module.exports = function (file, config) {
 
 			var parsed = regex.exec(line);
 
-			var logExtra = '"[' + filename + ':' + (lineNum++) + ']"';
+			var logExtra = "\"[" + filename + ":" + (lineNum++) + "]\"";
 			if(parsed) {
 				if(config.includeLevel) {
-					logExtra = '"[' + parsed[1].toUpperCase() + ' ' + filename + ':' + (lineNum++) + ']"';
+					logExtra = "\"[" + parsed[1].toUpperCase() + " " + filename + ":" + (lineNum++) + "]\"";
 				}
 
 				if(config.debug) console.log('Replacing: `', line, '`');
