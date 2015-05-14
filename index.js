@@ -40,8 +40,12 @@ module.exports = function (file, config) {
 				if(config.includeLevel) {
 					logExtra = '"[' + parsed[1].toUpperCase() + ' ' + filename + ':' + (lineNum++) + ']"';
 				}
+
+				if(config.debug) console.log('Replacing: `', line, '`');
 				
 				line = line.replace(regex, 'console.' + parsed[1] + '(' + logExtra + ',');
+
+				if(config.debug) console.log('With:`', line, '`');
 			}
 
 			result.push(line);
