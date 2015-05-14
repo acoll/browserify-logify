@@ -35,6 +35,8 @@ module.exports = function (file, config) {
 
 			var parsed = regex.exec(line);
 
+			filename = filename.replace(/\\/g, '/');
+
 			var logExtra = "\"[" + filename + ":" + (lineNum++) + "]\"";
 			if(parsed) {
 				if(config.includeLevel) {
