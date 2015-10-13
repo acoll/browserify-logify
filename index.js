@@ -15,7 +15,7 @@ module.exports = function (file, config) {
 	var filename = file;
 
 	if(config.basePath) {
-		filename = file.split(config.basePath)[1];
+		filename = file.split(config.basePath)[1] || file;
 		// filename = file.substring(file.indexOf(config.basePath) + config.basePath.length);
 	}
 
